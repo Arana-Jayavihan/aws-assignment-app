@@ -2,4 +2,4 @@ pandas
 numpy
 streamlit
 configparser
-psycopg2
+mysql-connector-python
