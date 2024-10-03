@@ -18,13 +18,15 @@ def create_connection():
     return connection
 
 # Fetch all student records from the database
+students = []
 def get_students():
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM records")
     records = cursor.fetchall()
     connection.close()
-    return records
+    global students
+    students = records
 
 # Add a new student to the database
 def add_student(name, age, grade):
@@ -58,13 +60,17 @@ def main():
     st.title("Student Record Management System")
     
     # Display all student records in a table
-    st.subheader("Student Records")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("Student Records")
+        
     # Fetch student records
-    students = get_students()
+    get_students()
 
     if students:
         df = pd.DataFrame(students, columns=["ID", "Name", "Age", "Grade"])
-        st.dataframe(df, hide_index=True)  # Display records in a table format using st.dataframe
+        st.dataframe(df, hide_index=True, use_container_width=True)  # Display records in a table format using st.dataframe
     else:
         st.write("No student records found.")
     
@@ -78,6 +84,7 @@ def main():
         if submitted:
             add_student(name, age, grade)
             st.success("Student added successfully!")
+        get_students()
     
     # Modify an existing student
     st.subheader("Modify Student")
@@ -88,6 +95,7 @@ def main():
     if st.button("Update Student"):
         update_student(student_id, name, age, grade)
         st.success("Student updated successfully!")
+    get_students()
 
     # Delete a student
     st.subheader("Delete Student")
@@ -95,6 +103,7 @@ def main():
     if st.button("Delete Student"):
         delete_student(student_id)
         st.success("Student deleted successfully!")
+    get_students()
 
 if __name__ == "__main__":
     main()
