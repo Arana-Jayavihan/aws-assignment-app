@@ -1,6 +1,6 @@
+import psycopg2
 import pandas as pd
 import configparser
-import mysql.connector
 import streamlit as st
 
 # MySQL connection
@@ -8,7 +8,7 @@ def create_connection():
     config = configparser.ConfigParser()
     config.read_file(open('config.ini'))
     
-    connection = mysql.connector.connect(
+    connection = psycopg2.connect(
         host=config['dbconfig']['SQL_HOST'],
         port=int(config['dbconfig']['SQL_PORT']),
         user=config['dbconfig']['SQL_USER'],
