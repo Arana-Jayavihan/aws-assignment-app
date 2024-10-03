@@ -36,6 +36,7 @@ def add_student(name, age, grade):
     cursor.execute(query, (name, age, grade))
     connection.commit()
     connection.close()
+    get_students()
 
 # Update a student's details
 def update_student(student_id, name, age, grade):
@@ -45,6 +46,7 @@ def update_student(student_id, name, age, grade):
     cursor.execute(query, (name, age, grade, student_id))
     connection.commit()
     connection.close()
+    get_students()
 
 # Delete a student from the database
 def delete_student(student_id):
@@ -54,6 +56,7 @@ def delete_student(student_id):
     cursor.execute(query, (student_id,))
     connection.commit()
     connection.close()
+    get_students()
 
 # Main Streamlit app
 def main():
@@ -84,7 +87,6 @@ def main():
         if submitted:
             add_student(name, age, grade)
             st.success("Student added successfully!")
-        get_students()
     
     # Modify an existing student
     st.subheader("Modify Student")
@@ -95,7 +97,6 @@ def main():
     if st.button("Update Student"):
         update_student(student_id, name, age, grade)
         st.success("Student updated successfully!")
-    get_students()
 
     # Delete a student
     st.subheader("Delete Student")
@@ -103,7 +104,6 @@ def main():
     if st.button("Delete Student"):
         delete_student(student_id)
         st.success("Student deleted successfully!")
-    get_students()
 
 if __name__ == "__main__":
     main()
