@@ -68,6 +68,9 @@ def main():
     with col1:
         st.subheader("Student Records")
         
+    with col2:
+        st.button("Refresh", on_click=get_students())
+        
     # Fetch student records
     get_students()
 
